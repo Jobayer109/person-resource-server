@@ -24,7 +24,18 @@ const dbConnect = async (req, res) => {
 
     app.post("/resources", async (req, res) => {
       const resource = req.body;
-      console.log(resource);
+
+      const query = {
+        firstName: resource.firstName,
+        lastName: resource.lastName,
+        age: resource.age,
+        email: resource.email,
+      };
+      const existed = await resourceCollection.find(query).toArray();
+      if (existed.length) {
+        const message = `You have already added ${resource.firstName}`;
+        return res.send({ acknowledged: false, message });
+      }
       const result = await resourceCollection.insertOne(resource);
       res.send(result);
     });
