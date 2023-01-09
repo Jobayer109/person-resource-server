@@ -20,6 +20,14 @@ const client = new MongoClient(uri, {
 
 const dbConnect = async (req, res) => {
   try {
+    const resourceCollection = client.db("Person_DB").collection("resources");
+
+    app.post("/resources", async (req, res) => {
+      const resource = req.body;
+      console.log(resource);
+      const result = await resourceCollection.insertOne(resource);
+      res.send(result);
+    });
   } finally {
   }
 };
