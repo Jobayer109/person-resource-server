@@ -22,9 +22,8 @@ const dbConnect = async (req, res) => {
   try {
     const resourceCollection = client.db("Person_DB").collection("resources");
 
-    app.post("/resources", async (req, res) => {
+    app.post("/people", async (req, res) => {
       const resource = req.body;
-
       const query = {
         firstName: resource.firstName,
         lastName: resource.lastName,
@@ -37,6 +36,11 @@ const dbConnect = async (req, res) => {
         return res.send({ acknowledged: false, message });
       }
       const result = await resourceCollection.insertOne(resource);
+      res.send(result);
+    });
+
+    app.get("/people", async (req, res) => {
+      const result = await resourceCollection.find({}).toArray();
       res.send(result);
     });
   } finally {
