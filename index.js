@@ -68,6 +68,14 @@ const dbConnect = async (req, res) => {
       const result = await resourceCollection.updateOne(query, updateDoc, options);
       res.send(result);
     });
+
+    // Delete Table row
+    app.delete("/people/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await resourceCollection.deleteOne(query);
+      res.send(result);
+    });
   } finally {
   }
 };
